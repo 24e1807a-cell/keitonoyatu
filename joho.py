@@ -20,7 +20,7 @@ songs = [
     {"title": "犬かキャットかで死ぬまで喧嘩しよう", "artist": "Official髭男dism", "mood": "うれしい", "keywords": "love future couple"},
     {"title": "Bedloom Tolk", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "bed night tolk alone"},
     {"title": "Anarchy", "artist": "Official髭男dism", "mood": "怒り", "keywords": "monkey speed study"},
-    {"title": "むっちゃんの歌", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "bed night tolk alone"},
+    {"title": "むっちゃんの歌", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "変更点"},
     {"title": "", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "bed night tolk alone"},
     {"title": "", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "bed night tolk alone"},
     {"title": "", "artist": "Official髭男dism", "mood": "リラックス", "keywords": "bed night tolk alone"},
