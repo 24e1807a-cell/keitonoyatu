@@ -1,53 +1,55 @@
+import streamlit as st
 import requests
 import random
-print("OK")
 
-
-# ▼ 髭男の曲を API から取得する関数
+# ▼ iTunes APIで髭男の曲を取得
+@st.cache_data
 def get_higedan_songs():
     url = "https://itunes.apple.com/search?term=official+hige+dandism&country=jp&media=music&limit=50"
     response = requests.get(url)
     data = response.json()
     return data["results"]
 
-# ▼ 気分ごとのおすすめ条件
+# ▼ 気分ごとの推薦ロジック
 def recommend_by_mood(mood, songs):
     mood_keywords = {
-        "1": ["happy", "upbeat", "ミックスナッツ", "FIRE", "Stand", "Parabola"],
-        "2": ["calm", "ballad", "I LOVE", "宿命", "Pretender"],
-        "3": ["cry", "emotional", "Cry", "Laughter", "イエスタデイ"]
+        "元気": ["ミックスナッツ", "FIRE", "Stand", "Parabola", "No Doubt"],
+        "落ち着き": ["Pretender", "I LOVE", "宿命", "I Love...", "バラード"],
+        "泣きたい": ["Cry", "Laughter", "イエスタデイ", "アポトーシス"]
     }
 
     keywords = mood_keywords[mood]
-
-    # 曲名にキーワードが入っているものを探す
     filtered = []
+
     for s in songs:
         name = s["trackName"]
         for kw in keywords:
             if kw.lower() in name.lower():
-                filtered.append(name)
+                filtered.append(s)
 
-    # 該当曲が無かったらランダム
     if len(filtered) == 0:
-        return random.choice(songs)["trackName"]
+        return random.choice(songs)
     else:
         return random.choice(filtered)
 
-# ▼ メイン処理
-print("★ 髭男おすすめ曲アプリ（API対応）★")
-print("気分を選んでください")
-print("1: 元気になりたい")
-print("2: 落ち着きたい")
-print("3: 泣きたい・感動したい")
 
-choice = input("番号を入力 → ")
+# ▼ Streamlit UI
+st.title("🎵 髭男おすすめ曲アプリ（API × Streamlit）")
 
-# APIから曲を取得
-songs = get_higedan_songs()
+st.write("気分を選んでください👇")
 
-# おすすめ曲を選択
-recommend = recommend_by_mood(choice, songs)
+mood = st.selectbox("気分を選ぶ", ["元気", "落ち着き", "泣きたい"])
 
-print("\n🎵 あなたへのおすすめ曲は…")
-print("➡", recommend)
+if st.button("おすすめ曲を見る"):
+    songs = get_higedan_songs()
+    song = recommend_by_mood(mood, songs)
+
+    st.subheader("🎶 あなたへのおすすめ曲")
+    st.write(f"**{song['trackName']}**")
+
+    # ジャケット画像
+    st.image(song["artworkUrl100"], width=200)
+
+    # 試聴URL
+    if "previewUrl" in song:
+        st.audio(song["previewUrl"])
