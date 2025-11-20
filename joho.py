@@ -1,5 +1,7 @@
 import requests
 import random
+print("OK")
+
 
 # ▼ 髭男の曲を API から取得する関数
 def get_higedan_songs():
@@ -49,4 +51,3 @@ recommend = recommend_by_mood(choice, songs)
 
 print("\n🎵 あなたへのおすすめ曲は…")
 print("➡", recommend)
-
