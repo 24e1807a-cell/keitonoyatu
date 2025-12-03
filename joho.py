@@ -23,13 +23,12 @@ if user_text:
     st.write(f"👉 判定された気分：**{mood}**")
 else:
     mood = "楽しい"
-    max_songs = st.slider(
+
+max_songs = st.slider(
     "表示する曲数を選んでください",
     min_value=1,
     max_value=20,
     value=5
-    if count >= max_songs:
-    break
 )
 
 # ---------- データ取得 ----------
