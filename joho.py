@@ -87,13 +87,13 @@ songs = get_higedan_songs()
 
 # ---------- 気分別おすすめ ----------
 if mood == "楽しい":
-    keyword = "イエスタデイ"
+    keywords = ["イエスタデイ", "I LOVE", "宿命", "ミックスナッツ"]
 elif mood == "悲しい":
-    keyword = "Pretender"
+    keywords = ["Pretender", "Subtitle", "異端なスター"]
 elif mood == "落ち着きたい":
-    keyword = "パラボラ"
-else:
-    keyword = "Stand By You"
+    keywords = ["パラボラ", "Stand By You", "115万キロのフィルム"]
+else:  # やる気を出したい
+    keywords = ["Cry Baby", "ノーダウト", "ミックスナッツ"]
 
 # ---------- 曲の表示 ----------
 # ---------- 曲の表示 ----------
