@@ -101,28 +101,25 @@ count = 0
 
 # モードによって表示順を切り替える
 if mode == "有名な曲モード":
-    song_list = songs            # 上から順
+    song_list = songs
 else:
-    song_list = list(reversed(songs))  # 下から順
+    song_list = list(reversed(songs))
 
 
 for song in song_list:
 
-    st.subheader(song["trackName"])
-    st.write(f"🎤 アーティスト：{song['artistName']}")
+    # タイトルにキーワードのどれかが入っていたら表示
+    if any(k in song["trackName"] for k in keywords):
 
-    # 気分に応じて説明文を変える
-    if mood == "楽しい":
-        st.write("✨ 前向きでノリのいいおすすめ曲です")
-    elif mood == "悲しい":
-        st.write("💧 心にしみる切ない雰囲気の曲です")
-    elif mood == "落ち着きたい":
-        st.write("🌙 ゆったり落ち着ける曲です")
-    else:
-        st.write("🔥 元気が出るパワフルな曲です")
+        st.subheader(song["trackName"])
+        st.write(f"🎤 アーティスト：{song['artistName']}")
+        st.write(make_description(song))
+        st.markdown("---")
 
-    st.markdown("---")
+        count += 1
+        if count >= max_songs:
+            break
 
-    count += 1
-    if count >= max_songs:
-        break
+
+if count == 0:
+    st.write("この気分に合う曲が見つかりませんでした。")
