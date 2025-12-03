@@ -6,9 +6,28 @@ from datetime import datetime
 st.title("🎵 気分で選ぶ Official髭男dism のおすすめ曲")
 
 # ---------- 気分選択 ----------
-mood = st.selectbox(
-    "今の気分は？",
-    ["楽しい", "悲しい", "落ち着きたい", "やる気を出したい"]
+user_text = st.text_input("今の気持ちを文章で書いてください（例：今日は最悪…）")
+
+def judge_mood(text):
+    if "疲" in text or "眠" in text or "しんど" in text:
+        return "落ち着きたい"
+    elif "悲" in text or "泣" in text or "つら" in text:
+        return "悲しい"
+    elif "むかつ" in text or "怒" in text or "イライラ" in text:
+        return "やる気を出したい"
+    else:
+        return "楽しい"
+
+if user_text:
+    mood = judge_mood(user_text)
+    st.write(f"👉 判定された気分：**{mood}**")
+else:
+    mood = "楽しい"
+    max_songs = st.slider(
+    "表示する曲数を選んでください",
+    min_value=1,
+    max_value=20,
+    value=5
 )
 
 # ---------- データ取得 ----------
@@ -83,7 +102,7 @@ for song in songs:
         st.markdown("---")
 
         count += 1
-        if count >= 5:
+        if count >= max_songs:
             break
 
 if count == 0:
