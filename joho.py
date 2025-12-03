@@ -39,7 +39,7 @@ def get_higedan_songs():
         "country": "JP",
         "media": "music",
         "entity": "song",
-        "limit": 50
+        "limit": 100
     }
 
     response = requests.get(url, params=params)
@@ -95,15 +95,15 @@ else:
 # ---------- 表示（5曲ずつ） ----------
 count = 0
 
-for song in songs:
-        st.subheader(song["trackName"])
-        st.write(f"🎤 アーティスト：{song['artistName']}")
-        st.write(make_description(song))
-        st.markdown("---")
+for song in reversed(songs):
+    st.subheader(song["trackName"])
+    st.write(f"🎤 アーティスト：{song['artistName']}")
+    st.write(make_description(song))
+    st.markdown("---")
 
-        count += 1
-        if count >= max_songs:
-            break
+    count += 1
+    if count >= max_songs:
+        break
 
 if count == 0:
     st.write("該当する曲が見つかりませんでした。")
