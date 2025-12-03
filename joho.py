@@ -133,16 +133,26 @@ for song in songs:
     # キーワードに一致したら表示
     if any(k in title for k in keywords):
 
-        st.subheader(title)
-        st.write(f"🎤 アーティスト：{song['artistName']}")
-        st.write(make_description(song))
-        st.markdown("---")
+       st.markdown(f"""
+<div style="
+background-color: rgba(0,0,0,0.6);
+padding: 20px;
+border-radius: 20px;
+margin-bottom: 20px;
+color: white;
+">
+<h3>🎵 {song['trackName']}</h3>
+<p>🎤 {song['artistName']}</p>
+<p>{make_description(song)}</p>
+</div>
+""", unsafe_allow_html=True)
 
-        displayed.add(title)
-        count += 1
+
+    displayed.add(title)
+    count += 1
 
         # 5曲出たら終了
-        if count == MAX_SONGS:
+    if count == MAX_SONGS:
             break
 
 
