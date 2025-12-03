@@ -1,9 +1,29 @@
 import streamlit as st
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: linear-gradient(135deg, #1c1c1c, #3a1c71, #d76d77, #ffaf7b);
+        background-attachment: fixed;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 import requests
 from datetime import datetime
 
 # ---------- タイトル ----------
-st.title("🎵 気分で選ぶ Official髭男dism のおすすめ曲")
+st.markdown("""
+<h1 style="text-align:center; color:white; font-size:50px;">
+🎧 髭男Mood Music
+</h1>
+<p style="text-align:center; color:white; font-size:20px;">
+あなたの今の気持ちに合わせて Official髭男dism の曲を紹介します
+</p>
+""", unsafe_allow_html=True)
+
 mode = st.radio(
     "🎧 表示モードを選んでください",
     ("有名な曲モード", "マニアックモード")
@@ -28,10 +48,6 @@ else:
     mood = "楽しい"
 
 max_songs = st.slider(
-    "表示する曲数を選んでください",
-    min_value=1,
-    max_value=20,
-    value=5
 )
 
 # ---------- データ取得 ----------
