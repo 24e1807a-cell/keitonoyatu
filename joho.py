@@ -1,11 +1,36 @@
 import streamlit as st
 import requests
-import random
+from datetime import datetime
 
-# ▼ iTunes APIで髭男の曲を取得
-@st.cache_data
+# ---------- タイトル ----------
+st.title("🎵 気分で選ぶ Official髭男dism のおすすめ曲")
+
+# ---------- 気分選択 ----------
+mood = st.selectbox(
+    "今の気分は？",
+    ["楽しい", "悲しい", "落ち着きたい", "やる気を出したい"]
+)
+
+# ---------- データ取得 ----------
+def get_higedan_songs():
+    url = "https://itunes.apple.com/search"
+    params = {
+        "term": "Official髭男dism",
+        "country": "JP",
+        "media": "music",
+        "entity": "song",
+        "limit": 50
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    return data["results"]
+
+# ---------- 説明文 ----------
 def make_description(song):
     album = song.get("collectionName", "不明なアルバム")
+
     release = song.get("releaseDate")
     if release:
         try:
@@ -17,6 +42,7 @@ def make_description(song):
         release_str = "不明"
 
     genre = song.get("primaryGenreName", "不明")
+
     duration_ms = song.get("trackTimeMillis")
     if duration_ms:
         seconds = duration_ms // 1000
@@ -31,53 +57,34 @@ def make_description(song):
         f"{release_str} に発表され、ジャンルは {genre} に分類される。  \n"
         f"楽曲時間は {duration_str} で、魅力的な音楽性を備えている。"
     )
-
     return desc
 
+# ---------- 曲取得 ----------
+songs = get_higedan_songs()
 
-# ▼ 気分ごとのキーワード設定
-mood_keywords = {
-    "元気": ["ミックスナッツ", "FIRE", "Stand", "パラボラ", "No Doubt"],
-    "落ち着き": ["Pretender", "I LOVE", "宿命", "バラード", "Stand By You"],
-    "泣きたい": ["Cry", "Laughter", "イエスタデイ", "アポトーシス"],
-}
+# ---------- 気分別おすすめ ----------
+if mood == "楽しい":
+    keyword = "イエスタデイ"
+elif mood == "悲しい":
+    keyword = "Pretender"
+elif mood == "落ち着きたい":
+    keyword = "パラボラ"
+else:
+    keyword = "Stand By You"
 
-# ▼ 気分に合う曲を複数返す
-def recommend_by_mood(mood, songs, count=5):
-    keywords = mood_keywords[mood]
-    filtered = []
+# ---------- 表示（5曲ずつ） ----------
+count = 0
 
-    for s in songs:
-        name = s["trackName"]
-        if any(kw.lower() in name.lower() for kw in keywords):
-            filtered.append(s)
-
-    # 該当曲が少ない → APIの中からランダム補完
-    if len(filtered) < count:
-        while len(filtered) < count:
-            filtered.append(random.choice(songs))
-
-    # ランダムで「数曲」選ぶ
-    return random.sample(filtered, count)
-
-
-# ▼ Streamlit UI
-st.title("🎵 髭男おすすめ曲アプリ（API × Streamlit）")
-st.write("気分を選んでください👇")
-
-mood = st.selectbox("気分を選ぶ", ["元気", "落ち着き", "泣きたい"])
-num = st.slider("表示する曲数", min_value=3, max_value=10, value=5)
-
-if st.button("おすすめ曲を見る"):
-    songs = get_higedan_songs()
-    results = recommend_by_mood(mood, songs, count=num)
-
-    st.subheader(f"🎶 あなたへのおすすめ曲（{num} 曲）")
-
-    # 複数曲をカード形式で表示
-    for song in results:
-        st.write(f"### {song['trackName']}")
-        st.image(song["artworkUrl100"], width=150)
-        if "previewUrl" in song:
-            st.audio(song["previewUrl"])
+for song in songs:
+    if keyword in song["trackName"]:
+        st.subheader(song["trackName"])
+        st.write(f"🎤 アーティスト：{song['artistName']}")
+        st.write(make_description(song))
         st.markdown("---")
+
+        count += 1
+        if count >= 5:
+            break
+
+if count == 0:
+    st.write("該当する曲が見つかりませんでした。")
