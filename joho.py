@@ -86,6 +86,12 @@ def make_description(song):
 songs = get_higedan_songs()
 
 # ---------- 気分別おすすめキーワード ----------
+songs = get_higedan_songs()
+# モードによって並びを変更
+if mode == "マニアックモード":
+    songs = list(reversed(songs))  # あまり知られてない曲が出やすくなる
+
+# ---------- 気分別キーワード ----------
 if mood == "楽しい":
     keywords = ["イエスタデイ"]
 elif mood == "悲しい":
@@ -95,26 +101,20 @@ elif mood == "落ち着きたい":
 else:
     keywords = ["Stand By You"]
 
-# ---------- 曲の表示準備 ----------
+MAX_SONGS = 5
 count = 0
-displayed_titles = set()   # ★ 重複防止用
-
-# モードによって表示順を切り替える
-if mode == "有名な曲モード":
-    song_list = songs
-else:
-    song_list = list(reversed(songs))
+displayed = set()
 
 # ---------- 曲の表示 ----------
-for song in song_list:
+for song in songs:
 
     title = song["trackName"]
 
-    # ★ すでに表示した曲はスキップ（シングル＆アルバム対策）
-    if title in displayed_titles:
+    # 重複防止
+    if title in displayed:
         continue
 
-    # タイトルにキーワードが含まれているか
+    # キーワードに一致したら表示
     if any(k in title for k in keywords):
 
         st.subheader(title)
@@ -122,14 +122,30 @@ for song in song_list:
         st.write(make_description(song))
         st.markdown("---")
 
-        # 表示済みとして保存
-        displayed_titles.add(title)
-
+        displayed.add(title)
         count += 1
-        if count >= max_songs:
+
+        # 5曲出たら終了
+        if count == MAX_SONGS:
             break
 
-# ---------- 見つからなかった場合 ----------
-if count == 0:
-    st.write("この気分に合う曲が見つかりませんでした。")
 
+# ---------- 足りなかったときの保険 ----------
+if count < MAX_SONGS:
+    for song in songs:
+
+        title = song["trackName"]
+
+        if title in displayed:
+            continue
+
+        st.subheader(title)
+        st.write(f"🎤 アーティスト：{song['artistName']}")
+        st.write(make_description(song))
+        st.markdown("---")
+
+        displayed.add(title)
+        count += 1
+
+        if count == MAX_SONGS:
+            break
