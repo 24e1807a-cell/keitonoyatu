@@ -4,7 +4,10 @@ from datetime import datetime
 
 # ---------- タイトル ----------
 st.title("🎵 気分で選ぶ Official髭男dism のおすすめ曲")
-
+mode = st.radio(
+    "🎧 表示モードを選んでください",
+    ("有名な曲モード", "マニアックモード")
+)
 # ---------- 気分選択 ----------
 user_text = st.text_input("今の気持ちを文章で書いてください（例：今日は最悪…）")
 
@@ -92,18 +95,31 @@ elif mood == "落ち着きたい":
 else:
     keyword = "Stand By You"
 
-# ---------- 表示（5曲ずつ） ----------
+# ---------- 曲の表示 ----------
 count = 0
 
-for song in reversed(songs):
-    st.subheader(song["trackName"])
-    st.write(f"🎤 アーティスト：{song['artistName']}")
-    st.write(make_description(song))
-    st.markdown("---")
+# 有名モード → 前から表示
+if mode == "有名な曲モード":
+    song_list = songs
 
-    count += 1
-    if count >= max_songs:
-        break
+# マニアックモード → 後ろから表示
+else:
+    song_list = reversed(songs)
+
+for song in song_list:
+
+    # 気分に合った曲だけを表示
+    if keyword in song["trackName"]:
+
+        st.subheader(song["trackName"])
+        st.write(f"🎤 アーティスト：{song['artistName']}")
+        st.write(make_description(song))
+        st.markdown("---")
+
+        count += 1
+        if count >= max_songs:
+            break
 
 if count == 0:
     st.write("該当する曲が見つかりませんでした。")
+
