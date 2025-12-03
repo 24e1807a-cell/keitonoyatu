@@ -96,30 +96,33 @@ else:
     keyword = "Stand By You"
 
 # ---------- 曲の表示 ----------
+# ---------- 曲の表示 ----------
 count = 0
 
-# 有名モード → 前から表示
+# モードによって表示順を切り替える
 if mode == "有名な曲モード":
-    song_list = songs
-
-# マニアックモード → 後ろから表示
+    song_list = songs            # 上から順
 else:
-    song_list = reversed(songs)
+    song_list = list(reversed(songs))  # 下から順
+
 
 for song in song_list:
 
-    # 気分に合った曲だけを表示
-    if keyword in song["trackName"]:
+    st.subheader(song["trackName"])
+    st.write(f"🎤 アーティスト：{song['artistName']}")
 
-        st.subheader(song["trackName"])
-        st.write(f"🎤 アーティスト：{song['artistName']}")
-        st.write(make_description(song))
-        st.markdown("---")
+    # 気分に応じて説明文を変える
+    if mood == "楽しい":
+        st.write("✨ 前向きでノリのいいおすすめ曲です")
+    elif mood == "悲しい":
+        st.write("💧 心にしみる切ない雰囲気の曲です")
+    elif mood == "落ち着きたい":
+        st.write("🌙 ゆったり落ち着ける曲です")
+    else:
+        st.write("🔥 元気が出るパワフルな曲です")
 
-        count += 1
-        if count >= max_songs:
-            break
+    st.markdown("---")
 
-if count == 0:
-    st.write("該当する曲が見つかりませんでした。")
-
+    count += 1
+    if count >= max_songs:
+        break
