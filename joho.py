@@ -85,19 +85,19 @@ def make_description(song):
 # ---------- 曲取得 ----------
 songs = get_higedan_songs()
 
-# ---------- 気分別おすすめ ----------
+# ---------- 気分別おすすめキーワード ----------
 if mood == "楽しい":
-    keywords = ["イエスタデイ", "I LOVE", "宿命", "ミックスナッツ"]
+    keywords = ["イエスタデイ"]
 elif mood == "悲しい":
-    keywords = ["Pretender", "Subtitle", "異端なスター"]
+    keywords = ["Pretender"]
 elif mood == "落ち着きたい":
-    keywords = ["パラボラ", "Stand By You", "115万キロのフィルム"]
-else:  # やる気を出したい
-    keywords = ["Cry Baby", "ノーダウト", "ミックスナッツ"]
+    keywords = ["パラボラ"]
+else:
+    keywords = ["Stand By You"]
 
-# ---------- 曲の表示 ----------
-# ---------- 曲の表示 ----------
+# ---------- 曲の表示準備 ----------
 count = 0
+displayed_titles = set()   # ★ 重複防止用
 
 # モードによって表示順を切り替える
 if mode == "有名な曲モード":
@@ -105,21 +105,31 @@ if mode == "有名な曲モード":
 else:
     song_list = list(reversed(songs))
 
-
+# ---------- 曲の表示 ----------
 for song in song_list:
 
-    # タイトルにキーワードのどれかが入っていたら表示
-    if any(k in song["trackName"] for k in keywords):
+    title = song["trackName"]
 
-        st.subheader(song["trackName"])
+    # ★ すでに表示した曲はスキップ（シングル＆アルバム対策）
+    if title in displayed_titles:
+        continue
+
+    # タイトルにキーワードが含まれているか
+    if any(k in title for k in keywords):
+
+        st.subheader(title)
         st.write(f"🎤 アーティスト：{song['artistName']}")
         st.write(make_description(song))
         st.markdown("---")
+
+        # 表示済みとして保存
+        displayed_titles.add(title)
 
         count += 1
         if count >= max_songs:
             break
 
-
+# ---------- 見つからなかった場合 ----------
 if count == 0:
     st.write("この気分に合う曲が見つかりませんでした。")
+
