@@ -29,7 +29,7 @@ mode = st.radio(
     ("有名な曲モード", "マニアックモード")
 )
 # ---------- 気分選択 ----------
-user_text = st.text_input("今の気持ちを文章で書いてください（例：今日は最悪…）")
+user_text = st.text_input("今の気持ちを文章で書いてください")
 
 def judge_mood(text):
     if "疲" in text or "眠" in text or "しんど" in text:
@@ -47,8 +47,6 @@ if user_text:
 else:
     mood = "楽しい"
 
-max_songs = st.slider(
-)
 
 # ---------- データ取得 ----------
 def get_higedan_songs():
