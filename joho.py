@@ -96,7 +96,6 @@ else:
 count = 0
 
 for song in songs:
-    if keyword in song["trackName"]:
         st.subheader(song["trackName"])
         st.write(f"🎤 アーティスト：{song['artistName']}")
         st.write(make_description(song))
