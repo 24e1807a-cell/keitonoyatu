@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import random
 
 # 背景色を設定
 st.markdown("""
@@ -153,4 +154,19 @@ if search_word:
 
 
 if count == 0:
-    st.write("この気分に合う曲が見つかりませんでした。")
+    st.write("この条件に合う曲が見つかりませんでした。")
+st.header("🎲 ランダムで今日の一曲！！")
+
+if st.button("ランダムで曲を選ぶ"):
+
+    random_song = random.choice(songs)
+    title = random_song["trackName"]
+
+    st.subheader(f"🎵 {title}")
+    st.write(f"🎤 {random_song['artistName']}")
+
+    # ジャケット画像（あれば）
+    if "artworkUrl100" in random_song:
+        st.image(random_song["artworkUrl100"])
+
+    st.write(make_description(random_song))
