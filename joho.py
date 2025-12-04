@@ -110,7 +110,7 @@ MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 5, 1)
 for song in songs_list:
      title = song["trackName"]
 
-     if any(k in title for k in keywords) or (search_word == "" or search_word in title):
+     if any(k in title for k in keywords):
 
 
         cols = st.columns([1, 3])
@@ -129,6 +129,27 @@ for song in songs_list:
         count += 1
         if count >= MAX_SONGS:
             break 
+        st.header("🔍 曲名で検索")
+
+search_word = st.text_input("曲名を入力してください")
+
+if search_word:
+
+    count = 0
+
+    for song in songs:
+        title = song["trackName"]
+
+        if search_word in title:
+
+            st.subheader(f"🎵 {title}")
+            st.write(f"🎤 {song['artistName']}")
+            st.write(make_description(song))
+            st.markdown("---")
+
+            count += 1
+            if count >= 5:
+                break
 
 
 if count == 0:
