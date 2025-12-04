@@ -110,7 +110,7 @@ MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 5, 1)
 for song in songs_list:
      title = song["trackName"]
 
-     if any(k in title for k in keywords) and (search_word == "" or search_word in title):
+     if any(k in title for k in keywords) or (search_word == "" or search_word in title):
 
 
         cols = st.columns([1, 3])
