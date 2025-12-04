@@ -102,10 +102,10 @@ else:
     songs_list = songs
 
 # -------------------------------
-# 曲表示（5曲固定）
+# 曲表示
 # -------------------------------
 count = 0
-MAX_SONGS = 5
+MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 20, 5)
 
 for song in songs_list:
      title = song["trackName"]
