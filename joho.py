@@ -80,7 +80,7 @@ mode = st.radio(
 # 曲取得
 # -------------------------------
 songs = get_higedan_songs()
-
+search_word = st.text_input("🔍 曲名で検索（空欄ならすべて表示）")
 # -------------------------------
 # 気分別キーワード（複数）
 # -------------------------------
@@ -105,12 +105,13 @@ else:
 # 曲表示
 # -------------------------------
 count = 0
-MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 20, 5)
+MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 5, 1)
 
 for song in songs_list:
      title = song["trackName"]
 
-     if any(k in title for k in keywords):
+     if any(k in title for k in keywords) and (search_word == "" or search_word in title):
+
 
         cols = st.columns([1, 3])
 
