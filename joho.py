@@ -163,10 +163,16 @@ if st.button("ランダムで曲を選ぶ"):
     random_song = random.choice(songs)
     title = random_song["trackName"]
 
+    # -------- あたり判定（20%）--------
+    atari = random.randint(1, 5)  # 1〜5のどれか
+    if atari == 1:
+        st.balloons()
+        st.success("🎉🎉 あたり！！今日のラッキーソング！ 🎉🎉")
+
     st.subheader(f"🎵 {title}")
     st.write(f"🎤 {random_song['artistName']}")
 
-    # ジャケット画像（あれば）
+    # ジャケット画像
     if "artworkUrl100" in random_song:
         st.image(random_song["artworkUrl100"])
 
