@@ -49,14 +49,6 @@ def make_description(song):
     return f"アルバム：{album} / リリース年：{year}"
 
 
-# -------------------------------
-# タイトル
-# -------------------------------
-st.title("🎵 髭男 気分別おすすめソング")
-
-# -------------------------------
-# 気分入力
-# -------------------------------
 user_text = st.text_input("今の気持ちを書いてね（例：悲しい、疲れた など）")
 
 def judge_mood(text):
@@ -120,13 +112,18 @@ for song in songs_list:
 
     if any(k in title for k in keywords):
 
-        st.subheader(f"🎵 {title}")
+     cols = st.columns([1, 3])
+    with cols[0]:
+        if song.get("artworkUrl100"):
+            st.image(song["artworkUrl100"], width=120)
+    with cols[1]:
+        st.markdown(f"### 🎵 {title}")
         st.write(f"🎤 {song['artistName']}")
         st.write(make_description(song))
-        st.markdown("---")
+    st.markdown("---")
 
-        count += 1
-        if count >= MAX_SONGS:
+    count += 1
+    if count >= MAX_SONGS:
             break
 
 
