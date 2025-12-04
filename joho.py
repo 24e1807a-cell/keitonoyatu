@@ -108,23 +108,24 @@ count = 0
 MAX_SONGS = 5
 
 for song in songs_list:
-    title = song["trackName"]
-
     if any(k in title for k in keywords):
 
-     cols = st.columns([1, 3])
-    with cols[0]:
-        if song.get("artworkUrl100"):
-            st.image(song["artworkUrl100"], width=120)
-    with cols[1]:
-        st.markdown(f"### 🎵 {title}")
-        st.write(f"🎤 {song['artistName']}")
-        st.write(make_description(song))
-    st.markdown("---")
+        cols = st.columns([1, 3])
 
-    count += 1
-    if count >= MAX_SONGS:
-            break
+        with cols[0]:
+            if song.get("artworkUrl100"):
+                st.image(song["artworkUrl100"], width=120)
+
+        with cols[1]:
+            st.markdown(f"### 🎵 {title}")
+            st.write(f"🎤 {song['artistName']}")
+            st.write(make_description(song))
+
+        st.markdown("---")
+
+        count += 1
+        if count >= MAX_SONGS:
+            break 
 
 
 if count == 0:
