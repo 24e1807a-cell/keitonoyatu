@@ -201,13 +201,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 def open_new_song():
     webbrowser.open("https://hgdn.lnk.to/Sanitizer")
-    new_song_button = tk.Button(root,
-                            text="🆕 新曲「Sanitizer」へ",
-                            command=open_new_song,
-                            font=("Helvetica", 12),
-                            bg="#3399ff",
-                            fg="white",
-                            padx=15,
-                            pady=8,
-                            relief="flat")
-new_song_button.pack(pady=10)
+    st.header("🆕 新曲はこちら")
+
+st.header("🆕 新曲はこちら")
+
+st.link_button(
+    "Sanitizer を聴く",
+    "https://hgdn.lnk.to/Sanitizer"
+)
