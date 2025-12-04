@@ -1,10 +1,10 @@
 import streamlit as st
+
 st.markdown(
     """
     <style>
     .stApp {
-        background: linear-gradient(135deg, #1c1c1c, #3a1c71, #d76d77, #ffaf7b);
-        background-attachment: fixed;
+        background-color: #111111;
     }
     </style>
     """,
