@@ -130,7 +130,8 @@ for song in songs_list:
         count += 1
         if count >= MAX_SONGS:
             break 
-        st.header("🔍 曲名で検索")
+
+st.header("🔍 曲名で検索")
 
 search_word = st.text_input("曲名を入力してください")
 
