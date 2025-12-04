@@ -11,7 +11,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🎵 髭男 気分別おすすめソング")
+st.title("🎵 unofficialな髭男の曲紹介")
 
 # -------------------------------
 # 髭男の曲をAPIで取得
@@ -177,3 +177,25 @@ if st.button("ランダムで曲を選ぶ"):
         st.image(random_song["artworkUrl100"])
 
     st.write(make_description(random_song))
+    # …（曲表示コードなど終わり）
+
+st.write("---")
+
+st.markdown("""
+<a href="https://higedan.com" target="_blank" style="
+    text-decoration: none;
+">
+  <div style="
+      background-color:#1f2937;
+      color:white;
+      padding:16px 24px;
+      border-radius:14px;
+      text-align:center;
+      font-size:20px;
+      font-weight:bold;
+      transition:0.2s;
+  ">
+      🎤 Official髭男dism 公式サイトへ
+  </div>
+</a>
+""", unsafe_allow_html=True)
