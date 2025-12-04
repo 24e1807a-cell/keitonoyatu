@@ -108,7 +108,9 @@ count = 0
 MAX_SONGS = 5
 
 for song in songs_list:
-    if any(k in title for k in keywords):
+     title = song["trackName"]
+
+     if any(k in title for k in keywords):
 
         cols = st.columns([1, 3])
 
