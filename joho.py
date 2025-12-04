@@ -1,76 +1,134 @@
 import streamlit as st
+import requests
 
-# 曲を取得する関数（君の元の関数）
-songs = get_higedan_songs()
+# 背景色を設定
+st.markdown("""
+<style>
+.stApp {
+    background-color: #C7D2FE;
+}
+</style>
+""", unsafe_allow_html=True)
 
-st.title("🎧 Official髭男dism レコメンド")
+st.title("🎵 髭男 気分別おすすめソング")
 
-# モード選択
-mode = st.radio("モードを選んでね", ["有名な曲モード", "マニアックモード"])
+# -------------------------------
+# 髭男の曲をAPIで取得
+# -------------------------------
+def get_higedan_songs():
+    url = "https://itunes.apple.com/search"
+    params = {
+        "term": "Official髭男dism",
+        "entity": "song",
+        "country": "JP",
+        "limit": 200
+    }
 
-# 気分選択
-mood = st.selectbox(
-    "今の気分は？",
-    ["楽しい", "悲しい", "落ち着きたい", "元気を出したい"]
+    response = requests.get(url, params=params)
+    if response.status_code != 200:
+        return []
+
+    data = response.json()["results"]
+
+    # 重複削除（曲名＋アーティストで判定）
+    unique = {}
+    for song in data:
+        key = song["trackName"] + song["artistName"]
+        if key not in unique:
+            unique[key] = song
+
+    return list(unique.values())
+
+
+# -------------------------------
+# 曲の説明
+# -------------------------------
+def make_description(song):
+    album = song.get("collectionName", "不明")
+    year = song.get("releaseDate", "不明")[:4]
+    return f"アルバム：{album} / リリース年：{year}"
+
+
+# -------------------------------
+# タイトル
+# -------------------------------
+st.title("🎵 髭男 気分別おすすめソング")
+
+# -------------------------------
+# 気分入力
+# -------------------------------
+user_text = st.text_input("今の気持ちを書いてね（例：悲しい、疲れた など）")
+
+def judge_mood(text):
+    if "疲" in text or "眠" in text or "しんど" in text:
+        return "落ち着きたい"
+    elif "悲" in text or "泣" in text or "つら" in text:
+        return "悲しい"
+    elif "むかつ" in text or "怒" in text or "イライラ" in text:
+        return "やる気を出したい"
+    else:
+        return "楽しい"
+
+if user_text:
+    mood = judge_mood(user_text)
+else:
+    mood = "楽しい"
+
+st.write(f"👉 判定された気分：**{mood}**")
+
+# -------------------------------
+# モード切り替え
+# -------------------------------
+mode = st.radio(
+    "表示モードを選んでください",
+    ["有名な曲モード", "マニアックモード"]
 )
 
-# 気分によるキーワード
+# -------------------------------
+# 曲取得
+# -------------------------------
+songs = get_higedan_songs()
+
+# -------------------------------
+# 気分別キーワード（複数）
+# -------------------------------
 if mood == "楽しい":
-    keywords = ["イエスタデイ", "ノーダウト"]
+    keywords = ["イエスタデイ", "ノーダウト", "FIRE"]
 elif mood == "悲しい":
-    keywords = ["Pretender", "115万キロのフィルム"]
+    keywords = ["Pretender", "Laughter", "115万"]
 elif mood == "落ち着きたい":
-    keywords = ["パラボラ", "Laughter"]
+    keywords = ["パラボラ", "Bedroom", "Driver"]
 else:
-    keywords = ["Stand By You", "FIRE GROUND"]
+    keywords = ["Stand By You", "Cry Baby"]
 
-# ===== 重複を消す処理 =====
-unique_songs = []
-used_titles = set()
+# -------------------------------
+# 並び替え（マニアックモード対応）
+# -------------------------------
+if mode == "マニアックモード":
+    songs_list = list(reversed(songs))
+else:
+    songs_list = songs
 
-for song in songs:
+# -------------------------------
+# 曲表示（5曲固定）
+# -------------------------------
+count = 0
+MAX_SONGS = 5
+
+for song in songs_list:
     title = song["trackName"]
 
-    if title not in used_titles:
-        unique_songs.append(song)
-        used_titles.add(title)
+    if any(k in title for k in keywords):
 
-# ===== モードで並び替え =====
-if mode == "マニアックモード":
-    song_list = list(reversed(unique_songs))
-else:
-    song_list = unique_songs
-
-
-# ===== 表示 =====
-st.subheader("🎵 あなたにおすすめの5曲")
-
-count = 0
-
-for song in song_list:
-
-    if any(k in song["trackName"] for k in keywords):
-
-        st.markdown(f"""
-        <div style="
-        background-color: #C7D2FE;
-        padding: 15px;
-        border-radius: 15px;
-        margin-bottom: 15px;
-        color: black;
-        border: 1px solid #ddd;
-        ">
-        <h3>🎵 {song['trackName']}</h3>
-        <p>🎤 {song['artistName']}</p>
-        <p>{make_description(song)}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.subheader(f"🎵 {title}")
+        st.write(f"🎤 {song['artistName']}")
+        st.write(make_description(song))
+        st.markdown("---")
 
         count += 1
-
-    if count >= 5:
-        break
+        if count >= MAX_SONGS:
+            break
 
 
 if count == 0:
-    st.warning("この気分に合う曲が見つかりませんでした。")
+    st.write("この気分に合う曲が見つかりませんでした。")
