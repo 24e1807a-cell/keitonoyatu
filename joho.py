@@ -1,15 +1,6 @@
 import streamlit as st
 import requests
 import random
-language = st.radio(
-    "...",
-    ("日本語", "English"),
-)
-
-"mood_input": {
-    "日本語": "...",
-    "English": "..."
-}
 
 TEXT = {
     "app_title": {
@@ -29,6 +20,14 @@ TEXT = {
         "English": "👉 Detected mood"
     }
 }
+language = st.radio(
+    TEXT["language_label"]["English"] + " / " + TEXT["language_label"]["日本語"],
+    ("日本語", "English"),
+    horizontal=True
+)
+user_text = st.text_input(TEXT["mood_input"][language])
+st.write("DEBUG language =", language)
+st.write("DEBUG TEXT keys =", TEXT["mood_input"].keys())
 
 # 背景色を設定
 st.markdown("""
