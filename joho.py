@@ -1,6 +1,31 @@
 import streamlit as st
 import requests
 import random
+# -------------------------------
+# 表示テキスト（言語切り替え用）
+# -------------------------------
+TEXT = {
+    "title": {
+        "日本語": "🎵 unofficialな髭男の曲紹介",
+        "English": "🎵 Unofficial HIGE DANDISM Song Guide"
+    },
+    "mode": {
+        "日本語": "表示モードを選んでください",
+        "English": "Select display mode"
+    },
+    "search": {
+        "日本語": "🔍 曲名で検索",
+        "English": "🔍 Search by song title"
+    },
+    "random": {
+        "日本語": "🎲 ランダムで今日の一曲！！",
+        "English": "🎲 Random song for today!"
+    },
+    "official": {
+        "日本語": "🎤 Official髭男dism 公式サイトへ",
+        "English": "🎤 Official HIGE DANDISM Website"
+    }
+}
 
 # 背景色を設定
 st.markdown("""
@@ -10,8 +35,15 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+language = st.radio(
+    "Language / 言語",
+    ("日本語", "English"),
+    horizontal=True
+)
 
-st.title("🎵 unofficialな髭男の曲紹介")
+
+st.title(TEXT["title"][language])
+
 
 # -------------------------------
 # 髭男の曲をAPIで取得
@@ -73,7 +105,7 @@ st.write(f"👉 判定された気分：**{mood}**")
 # モード切り替え
 # -------------------------------
 mode = st.radio(
-    "表示モードを選んでください",
+    TEXT["mode"][language],
     ["有名な曲モード", "マニアックモード"]
 )
 
@@ -130,7 +162,8 @@ for song in songs_list:
         if count >= MAX_SONGS:
             break 
 
-st.header("🔍 曲名で検索")
+st.header(TEXT["search"][language])
+
 
 search_word = st.text_input("曲名を入力してください")
 
@@ -155,7 +188,8 @@ if search_word:
 
 if count == 0:
     st.write("この条件に合う曲が見つかりませんでした。")
-st.header("🎲 ランダムで今日の一曲！！")
+st.header(TEXT["random"][language])
+
 
 if st.button("ランダムで曲を選ぶ"):
 
@@ -194,7 +228,8 @@ st.markdown("""
       font-weight:bold;
       transition:0.2s;
   ">
-      🎤 Official髭男dism 公式サイトへ
+      {TEXT["official"][language]}
+
   </div>
 </a>
 """, unsafe_allow_html=True)
