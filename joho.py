@@ -1,6 +1,24 @@
 import streamlit as st
 import requests
 import random
+TEXT = {
+    "app_title": {
+        "日本語": "🎵 unofficialな髭男の曲紹介",
+        "English": "🎵 Unofficial HIGE DANDISM Song Guide"
+    },
+    "language_label": {
+        "日本語": "言語を選択",
+        "English": "Select Language"
+    },
+    "mood_input": {
+        "日本語": "今の気持ちを書いてね（例：悲しい、疲れた など）",
+        "English": "Write how you feel now (ex: sad, tired)"
+    },
+    "mood_result": {
+        "日本語": "👉 判定された気分",
+        "English": "👉 Detected mood"
+    }
+}
 
 # 背景色を設定
 st.markdown("""
@@ -12,12 +30,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 language = st.radio(
-    "Language / 言語",
+    TEXT["language_label"]["English"] + " / " + TEXT["language_label"]["日本語"],
     ("日本語", "English"),
     horizontal=True
 )
 
-st.title("🎵 unofficialな髭男の曲紹介")
+
+st.title(TEXT["app_title"][language])
 TEXT = {
     "app_title": {
         "日本語": "🎵 unofficialな髭男の曲紹介",
@@ -62,7 +81,7 @@ def make_description(song):
     return f"アルバム：{album} / リリース年：{year}"
 
 
-user_text = st.text_input("今の気持ちを書いてね（例：悲しい、疲れた など）")
+user_text = st.text_input(TEXT["mood_input"][language])
 
 def judge_mood(text):
     if "疲" in text or "眠" in text or "しんど" in text:
@@ -79,7 +98,10 @@ if user_text:
 else:
     mood = "楽しい"
 
-st.write(f"👉 判定された気分：**{mood}**")
+st.write(
+    f"{TEXT['mood_result'][language]}：**{mood}**"
+)
+
 
 # -------------------------------
 # モード切り替え
