@@ -11,7 +11,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+language = st.radio(
+    "Language / 言語",
+    ("日本語", "English"),
+    horizontal=True
+)
+
 st.title("🎵 unofficialな髭男の曲紹介")
+TEXT = {
+    "app_title": {
+        "日本語": "🎵 unofficialな髭男の曲紹介",
+        "English": "🎵 Unofficial HIGE DANDISM Song Guide"
+    }
+}
 
 # -------------------------------
 # 髭男の曲をAPIで取得
