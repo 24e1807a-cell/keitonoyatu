@@ -2,33 +2,6 @@ import streamlit as st
 import requests
 import random
 
-TEXT = {
-    "app_title": {
-        "日本語": "🎵 unofficialな髭男の曲紹介",
-        "English": "🎵 Unofficial HIGE DANDISM Song Guide"
-    },
-    "language_label": {
-        "日本語": "言語を選択",
-        "English": "Select Language"
-    },
-    "mood_input": {
-        "日本語": "今の気持ちを書いてね（例：悲しい、疲れた など）",
-        "English": "Write how you feel now (ex: sad, tired)"
-    },
-    "mood_result": {
-        "日本語": "👉 判定された気分",
-        "English": "👉 Detected mood"
-    }
-}
-language = st.radio(
-    TEXT["language_label"]["English"] + " / " + TEXT["language_label"]["日本語"],
-    ("日本語", "English"),
-    horizontal=True
-)
-user_text = st.text_input(TEXT["mood_input"][language])
-st.write("DEBUG language =", language)
-st.write("DEBUG TEXT keys =", TEXT["mood_input"].keys())
-
 # 背景色を設定
 st.markdown("""
 <style>
@@ -38,8 +11,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+language = st.radio(
+    "Language / 言語",
+    ("日本語", "English"),
+    horizontal=True
+)
 
-st.title(TEXT["app_title"][language])
+st.title("🎵 unofficialな髭男の曲紹介")
 TEXT = {
     "app_title": {
         "日本語": "🎵 unofficialな髭男の曲紹介",
@@ -73,6 +51,7 @@ def get_higedan_songs():
             unique[key] = song
 
     return list(unique.values())
+
 
 
 # -------------------------------
