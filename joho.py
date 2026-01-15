@@ -1,3 +1,67 @@
+import streamlit as st
+import requests
+import random
+
+# 背景色を設定
+st.markdown("""
+<style>
+.stApp {
+    background-color: #C7D2FE;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.title("🎵 unofficialな髭男の曲紹介")
+
+# -------------------------------
+# 髭男の曲をAPIで取得
+# -------------------------------
+def get_higedan_songs():
+    url = "https://itunes.apple.com/search"
+    params = {
+        "term": "Official髭男dism",
+        "entity": "song",
+        "country": "JP",
+        "limit": 200
+    }
+
+    response = requests.get(url, params=params)
+    if response.status_code != 200:
+        return []
+
+    data = response.json()["results"]
+
+    # 重複削除（曲名＋アーティストで判定）
+    unique = {}
+    for song in data:
+        key = song["trackName"] + song["artistName"]
+        if key not in unique:
+            unique[key] = song
+
+    return list(unique.values())
+
+
+# -------------------------------
+# 曲の説明
+# -------------------------------
+def make_description(song):
+    album = song.get("collectionName", "不明")
+    year = song.get("releaseDate", "不明")[:4]
+    return f"アルバム：{album} / リリース年：{year}"
+
+
+user_text = st.text_input("今の気持ちを書いてね（例：悲しい、疲れた など）")
+
+def judge_mood(text):
+    if "疲" in text or "眠" in text or "しんど" in text:
+        return "落ち着きたい"
+    elif "悲" in text or "泣" in text or "つら" in text:
+        return "悲しい"
+    elif "むかつ" in text or "怒" in text or "イライラ" in text:
+        return "やる気を出したい"
+    else:
+        return "楽しい"
+    
 if user_text:
     mood = judge_mood(user_text)
 else:
