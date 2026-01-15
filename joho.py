@@ -38,12 +38,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-language = st.radio(
-    TEXT["language_label"]["English"] + " / " + TEXT["language_label"]["日本語"],
-    ("日本語", "English"),
-    horizontal=True
-)
-
 
 st.title(TEXT["app_title"][language])
 TEXT = {
