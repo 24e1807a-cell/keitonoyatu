@@ -1,6 +1,16 @@
 import streamlit as st
 import requests
 import random
+language = st.radio(
+    "...",
+    ("日本語", "English"),
+)
+
+"mood_input": {
+    "日本語": "...",
+    "English": "..."
+}
+
 TEXT = {
     "app_title": {
         "日本語": "🎵 unofficialな髭男の曲紹介",
