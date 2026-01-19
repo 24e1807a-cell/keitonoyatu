@@ -135,10 +135,17 @@ else:
 # -------------------------------
 # モード切り替え
 # -------------------------------
-mode = st.radio(
-    TEXT["mode"][language],
-    ["有名な曲モード", "マニアックモード"]
-)
+if language == "English":
+    mode = st.radio(
+        "Select display mode",
+        ["Popular Songs", "Maniac Songs"]
+    )
+else:
+    mode = st.radio(
+        "表示モードを選んでください",
+        ["有名な曲モード", "マニアックモード"]
+    )
+
 
 # -------------------------------
 # 曲取得
@@ -159,7 +166,7 @@ else:
 # -------------------------------
 # 並び替え（マニアックモード対応）
 # -------------------------------
-if mode == "マニアックモード":
+if mode in ["マニアックモード", "Maniac Songs"]:
     songs_list = list(reversed(songs))
 else:
     songs_list = songs
