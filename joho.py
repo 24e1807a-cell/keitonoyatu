@@ -307,3 +307,23 @@ else:
         "https://hgdn.lnk.to/Sanitizer"
     )
 
+if language == "English":
+    st.header("🆕 New Releases")
+    st.link_button(
+        "Listen to Sanitizer",
+        "https://hgdn.lnk.to/Sanitizer"
+    )
+    st.link_button(
+        "Listen to Make Me Wander",
+        "https://hgdn.lnk.to/Make_Me_Wonder"
+    )
+else:
+    st.header("🆕 新曲はこちら")
+    st.link_button(
+        "Sanitizer を聴く",
+        "https://hgdn.lnk.to/Sanitizer"
+    )
+    st.link_button(
+        "Make Me Wander を聴く",
+        "https://hgdn.lnk.to/Make_Me_Wonder"
+    )
