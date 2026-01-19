@@ -25,6 +25,26 @@ TEXT = {
         "日本語": "🎤 Official髭男dism 公式サイトへ",
         "English": "🎤 Official HIGE DANDISM Website"
     }
+     "mood_input": {
+        "日本語": "今の気持ちを書いてね（例：悲しい、疲れた など）",
+        "English": "Write how you feel now (Japanese is OK)"
+    },
+    "mood_result": {
+        "日本語": "👉 判定された気分：",
+        "English": "👉 Detected mood:"
+    },
+    "mode_label": {
+        "日本語": "表示モードを選んでください",
+        "English": "Select display mode"
+    },
+    "mode_popular": {
+        "日本語": "有名な曲モード",
+        "English": "Popular Songs"
+    },
+    "mode_mania": {
+        "日本語": "マニアックモード",
+        "English": "Maniac Songs"
+    }
 }
 
 # 背景色を設定
