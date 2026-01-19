@@ -266,7 +266,12 @@ if random_button:
 
 st.write("---")
 
-st.markdown("""
+if language == "English":
+    official_text = "🎤 Official HIGE DANDISM Website"
+else:
+    official_text = "🎤 Official髭男dism 公式サイトへ"
+
+st.markdown(f"""
 <a href="https://higedan.com" target="_blank" style="
     text-decoration: none;
 ">
@@ -280,18 +285,25 @@ st.markdown("""
       font-weight:bold;
       transition:0.2s;
   ">
-      {TEXT["official"][language]}
-
+      {official_text}
   </div>
 </a>
 """, unsafe_allow_html=True)
+
 def open_new_song():
     webbrowser.open("https://hgdn.lnk.to/Sanitizer")
     st.header("🆕 新曲はこちら")
 
-st.header("🆕 新曲はこちら")
+if language == "English":
+    st.header("🆕 New Release")
+    st.link_button(
+        "Listen to Sanitizer",
+        "https://hgdn.lnk.to/Sanitizer"
+    )
+else:
+    st.header("🆕 新曲はこちら")
+    st.link_button(
+        "Sanitizer を聴く",
+        "https://hgdn.lnk.to/Sanitizer"
+    )
 
-st.link_button(
-    "Sanitizer を聴く",
-    "https://hgdn.lnk.to/Sanitizer"
-)
