@@ -175,7 +175,11 @@ else:
 # 曲表示
 # -------------------------------
 count = 0
-MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 5, 1)
+if language == "English":
+    MAX_SONGS = st.slider("🎧 Number of songs to display", 1, 5, 1)
+else:
+    MAX_SONGS = st.slider("🎧 表示する曲の数", 1, 5, 1)
+
 
 for song in songs_list:
      title = song["trackName"]
@@ -203,7 +207,11 @@ for song in songs_list:
 st.header(TEXT["search"][language])
 
 
-search_word = st.text_input("曲名を入力してください")
+if language == "English":
+    search_word = st.text_input("Enter song title")
+else:
+    search_word = st.text_input("曲名を入力してください")
+
 
 if search_word:
 
@@ -229,7 +237,13 @@ if count == 0:
 st.header(TEXT["random"][language])
 
 
-if st.button("ランダムで曲を選ぶ"):
+if language == "English":
+    random_button = st.button("Pick a random song")
+else:
+    random_button = st.button("ランダムで曲を選ぶ")
+
+if random_button:
+
 
     random_song = random.choice(songs)
     title = random_song["trackName"]
