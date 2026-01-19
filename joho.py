@@ -126,7 +126,11 @@ if user_text:
 else:
     mood = "楽しい"
 
-st.write(f"👉 判定された気分：**{mood}**")
+if language == "English":
+    st.write(f"👉 Detected mood: **{mood}**")
+else:
+    st.write(f"👉 判定された気分：**{mood}**")
+
 
 # -------------------------------
 # モード切り替え
