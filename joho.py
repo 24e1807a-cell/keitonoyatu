@@ -102,7 +102,14 @@ def make_description(song):
     return f"アルバム：{album} / リリース年：{year}"
 
 
-user_text = st.text_input("今の気持ちを書いてね（例：悲しい、疲れた など）")
+if language == "English":
+    user_text = st.text_input(
+        "Write how you feel now (example: sad, tired)"
+    )
+else:
+    user_text = st.text_input(
+        "今の気持ちを書いてね（例：悲しい、疲れた など）"
+    )
 
 def judge_mood(text):
     if "疲" in text or "眠" in text or "しんど" in text:
