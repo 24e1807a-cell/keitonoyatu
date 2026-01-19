@@ -24,8 +24,8 @@ TEXT = {
     "official": {
         "日本語": "🎤 Official髭男dism 公式サイトへ",
         "English": "🎤 Official HIGE DANDISM Website"
-    }
-     "mood_input": {
+    },  # ← ★このカンマが超重要！！
+    "mood_input": {
         "日本語": "今の気持ちを書いてね（例：悲しい、疲れた など）",
         "English": "Write how you feel now (Japanese is OK)"
     },
